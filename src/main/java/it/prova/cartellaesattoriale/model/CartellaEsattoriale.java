@@ -42,7 +42,7 @@ public class CartellaEsattoriale {
 		this.contribuente = contribuente;
 	}
 
-	public CartellaEsattoriale(String descrizione, Integer importo, Contribuente contribuente) {
+	public CartellaEsattoriale(String descrizione, Integer importo, Stato stato, Contribuente contribuente) {
 		this.descrizione = descrizione;
 		this.importo = importo;
 		this.contribuente = contribuente;
