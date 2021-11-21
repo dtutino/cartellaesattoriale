@@ -14,7 +14,7 @@ public interface ContribuenteRepository extends CrudRepository<Contribuente, Lon
 	List<Contribuente> findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(String cognome,
 			String nome);
 
-	@Query("select distinct c from Contribuente c left join fetch c.cartelleEsattoriai ")
+	@Query("select distinct c from Contribuente c left join fetch c.cartelleEsattoriali ")
 	List<Contribuente> findAllEager();
 
 	@Query("from Contribuente c left join fetch c.cartelleEsattoriali where c.id=?1")

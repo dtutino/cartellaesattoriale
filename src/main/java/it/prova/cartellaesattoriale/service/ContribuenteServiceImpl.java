@@ -2,9 +2,12 @@ package it.prova.cartellaesattoriale.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import it.prova.cartellaesattoriale.model.Contribuente;
 import it.prova.cartellaesattoriale.repository.contribuente.ContribuenteRepository;
 
+@Service
 public class ContribuenteServiceImpl implements ContribuenteService {
 	
 	private ContribuenteRepository repository;
