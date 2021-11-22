@@ -10,9 +10,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import it.prova.cartellaesattoriale.model.CartellaEsattoriale;
 import it.prova.cartellaesattoriale.model.Contribuente;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ContribuenteDTO {
 	
 private Long id;
@@ -32,7 +35,10 @@ private Long id;
 	@NotNull(message = "{indirizzo.notblank}")
 	private String indirizzo;
 	
-	@JsonIgnoreProperties(value = { "regista" })
+	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+	private Boolean daAttenzionare; 
+	
+	@JsonIgnoreProperties(value = { "contribuente" })
 	private Set<CartellaEsattorialeDTO> cartelleEsattoriali = new HashSet<CartellaEsattorialeDTO>(0);
 
 	public ContribuenteDTO() {
@@ -113,18 +119,35 @@ private Long id;
 		this.cartelleEsattoriali = cartelleEsattoriali;
 	}
 
+	public Boolean getDaAttenzionare() {
+		return daAttenzionare;
+	}
+
+	public void setDaAttenzionare(Boolean daAttenzionare) {
+		this.daAttenzionare = daAttenzionare;
+	}
+
 	public Contribuente buildContribuenteModel() {
 		return new Contribuente(this.id, this.nome, this.cognome, this.dataNascita, this.codiceFiscale, this.indirizzo);
 	}
 
-	public static ContribuenteDTO buildContribuenteDTOFromModel(Contribuente contribuenteModel, boolean includeCartelleEsattoriali) {
-		return new ContribuenteDTO(contribuenteModel.getId(), contribuenteModel.getNome(), contribuenteModel.getCognome(),
+	public static ContribuenteDTO buildContribuenteDTOFromModel(Contribuente contribuenteModel, boolean includeCartelleEsattoriali, boolean verifica) {
+		ContribuenteDTO contribuenteDTO = new ContribuenteDTO(contribuenteModel.getId(), contribuenteModel.getNome(), contribuenteModel.getCognome(),
 				contribuenteModel.getDataNascita(), contribuenteModel.getCodiceFiscale(), contribuenteModel.getIndirizzo());
+		if(verifica) {
+			Set<CartellaEsattoriale> listaCartelle = contribuenteModel.getCartelleEsattoriali();
+			for (CartellaEsattoriale item : listaCartelle) {
+				if (item.getStato().getDescrizione() == "IN_CONTENZIOSO") {
+					contribuenteDTO.setDaAttenzionare(true);
+				}
+			}
+		}
+		return contribuenteDTO;
 	}
 
-	public static List<ContribuenteDTO> createContribuenteDTOListFromModelList(List<Contribuente> modelListInput, boolean includeCartelleEsattoriali) {
+	public static List<ContribuenteDTO> createContribuenteDTOListFromModelList(List<Contribuente> modelListInput, boolean includeCartelleEsattoriali, boolean verifica) {
 		return modelListInput.stream().map(contribuenteEntity -> {
-			ContribuenteDTO result = ContribuenteDTO.buildContribuenteDTOFromModel(contribuenteEntity, includeCartelleEsattoriali);
+			ContribuenteDTO result = ContribuenteDTO.buildContribuenteDTOFromModel(contribuenteEntity, includeCartelleEsattoriali, verifica);
 			if(includeCartelleEsattoriali)
 				result.setCartelleEsattoriali(CartellaEsattorialeDTO.createCartellaEsattorialeDTOSetFromModelSet(contribuenteEntity.getCartelleEsattoriali(), false));
 			return result;

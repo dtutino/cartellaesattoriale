@@ -111,7 +111,7 @@ public class CartellaEsattorialeDTO {
 		CartellaEsattorialeDTO result = new CartellaEsattorialeDTO(cartellaEsattorialeModel.getId(), cartellaEsattorialeModel.getDescrizione(), cartellaEsattorialeModel.getImporto(), cartellaEsattorialeModel.getStato());
 
 		if (includeContribuenti)
-			result.setContribuente(ContribuenteDTO.buildContribuenteDTOFromModel(cartellaEsattorialeModel.getContribuente(), false));
+			result.setContribuente(ContribuenteDTO.buildContribuenteDTOFromModel(cartellaEsattorialeModel.getContribuente(), false, false));
 
 		return result;
 	}
