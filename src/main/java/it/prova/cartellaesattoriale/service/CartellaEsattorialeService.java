@@ -21,5 +21,11 @@ public interface CartellaEsattorialeService {
 	List<CartellaEsattoriale> findByExample(CartellaEsattoriale example);
 
 	List<CartellaEsattoriale> findByDescrizioneAndImporto(String descrizione, Integer importo);
+	
+	Integer sumImporto();
+	
+	Integer sumConclusa();
+	
+	Integer sumContenzioso();
 
 }

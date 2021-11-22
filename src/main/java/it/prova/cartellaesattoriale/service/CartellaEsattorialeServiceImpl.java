@@ -57,4 +57,19 @@ public class CartellaEsattorialeServiceImpl implements CartellaEsattorialeServic
 		return repository.findByDescrizioneAndImporto(descrizione, importo);
 	}
 
+	@Override
+	public Integer sumImporto() {
+		return repository.sumOfImporto();
+	}
+
+	@Override
+	public Integer sumConclusa() {
+		return repository.sumConclusa();
+	}
+
+	@Override
+	public Integer sumContenzioso() {
+		return repository.sumContenzioso();
+	}
+
 }

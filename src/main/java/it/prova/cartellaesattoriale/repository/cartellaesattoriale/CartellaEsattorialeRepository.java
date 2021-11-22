@@ -16,5 +16,14 @@ public interface CartellaEsattorialeRepository extends CrudRepository<CartellaEs
 	
 	@Query("select ce from CartellaEsattoriale ce join fetch ce.contribuente")
 	List<CartellaEsattoriale> findAllCartellaEsattorialeEager();
+	
+	@Query("select sum(ce.importo) from CartellaEsattoriale ce")
+	Integer sumOfImporto();
+	
+	@Query("select sum(ce.importo) from CartellaEsattoriale ce where ce.stato = 'CONCLUSA'")
+	Integer sumConclusa();
+	
+	@Query("select sum(ce.importo) from CartellaEsattoriale ce where ce.stato = 'IN_CONTENZIOSO'")
+	Integer sumContenzioso();
 
 }
